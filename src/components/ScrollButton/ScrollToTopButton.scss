@@ -1,0 +1,18 @@
+.scroll-to-top-button {
+  display: none;
+  position: fixed;
+  bottom: 90px;
+  right: 28px;
+  background-color: transparent;
+  border: none;
+  max-width: 62px;
+  transition: background-color 0.3s ease-in-out;
+  &:hover {
+    opacity: 0.6;
+  }
+}
+
+.scroll-to-top-button.visible {
+  display: block;
+  background-color: transparent;
+}

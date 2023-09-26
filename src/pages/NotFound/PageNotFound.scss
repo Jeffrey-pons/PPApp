@@ -1,0 +1,22 @@
+.page404 {
+  display: grid;
+  text-align: center;
+  .h2-page404 {
+    display: grid;
+    padding-bottom: 26px;
+    .number {
+      font-family: var(--font-title);
+      font-size: 5rem;
+      font-weight: 600;
+    }
+  }
+  span {
+    font-family: var(--font-author);
+    font-size: 1.6rem;
+    padding-bottom: 26px;
+  }
+  button {
+    margin: auto;
+    width: 250px;
+  }
+}

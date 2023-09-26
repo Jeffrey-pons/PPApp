@@ -1,0 +1,133 @@
+@import "../../styles/mixins";
+.main-page {
+  .container {
+    display: flex;
+    gap: 25px;
+    align-items: center;
+    padding: var(--space-70);
+    .container-author-main {
+      display: grid;
+      gap: 22px;
+
+      span {
+        @include span-article;
+      }
+
+      h2 {
+        text-align: left;
+        cursor: pointer;
+        padding: 10px 0px 0px 0px;
+        font-size: 2.6rem;
+        color: grey;
+      }
+
+      .active h2 {
+        color: black;
+      }
+
+      p {
+        padding: 0px;
+      }
+    }
+  }
+  .h2-main {
+    padding: var(--space-70);
+  }
+  .article-main {
+    .article-card {
+      opacity: 0.8;
+      transform: translateY(16px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .article-card.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    padding: var(--space-70);
+    display: flex;
+    gap: 32px;
+    div {
+      flex: 1;
+      padding: 8px;
+      text-align: center;
+      img,
+      video {
+        padding: 20px;
+      }
+      h5 {
+        font-family: var(--font-title);
+        font-size: 1.9rem;
+        padding: 14px;
+      }
+      span {
+        @include span-article;
+      }
+      .author {
+        text-decoration: none;
+      }
+    }
+    .article-card:hover {
+      cursor: pointer;
+      background-color: rgba(128, 128, 128, 0.016);
+      border-radius: 5px;
+      box-shadow: rgba(50, 50, 93, 0.085) 0px 2px 5px -1px,
+        rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    }
+  }
+  .article-main-youtube {
+    padding: var(--space-70);
+    .article-card-secondary {
+      background-color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 5px;
+      padding: 50px 40px;
+      box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em,
+        rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
+      span {
+        @include span-article;
+      }
+      h5 {
+        font-family: var(--font-title);
+        font-size: 1.9rem;
+        padding: 20px 0px 20px 0px;
+      }
+      p {
+        padding: 0px 0px 20px 0px;
+        max-width: 444px;
+        margin: initial;
+      }
+      #soulages-img {
+        max-width: 54%;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1150px) {
+  .main-page .article-main-youtube {
+    text-align: center;
+  }
+  .main-page .article-main-youtube .article-card-secondary {
+    display: grid;
+    justify-content: center;
+    gap: 38px;
+    p {
+      margin: auto;
+    }
+    #soulages-img {
+      margin: auto;
+    }
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .main-page .container,
+  .main-page .article-main {
+    display: grid;
+  }
+  .main-page .article-main {
+    padding: 10px 10px 52px 10px;
+  }
+}

@@ -1,0 +1,25 @@
+//Contact SCSSS
+.Contact-main {
+  #mail {
+    font-size: 17.8px;
+    text-align: center;
+  }
+  .Adresse-container {
+    display: grid;
+    gap: 46px;
+    justify-content: center;
+  }
+  .logo-contact {
+    max-width: 12%;
+    border: 3px solid black;
+  }
+  a {
+    font-family: var(--font-txt);
+    font-size: 1.7em;
+  }
+  .social-media {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+  }
+}
