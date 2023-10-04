@@ -53,6 +53,7 @@ const Contact = () => {
             href="https://www.facebook.com/"
             target="_blank"
             className="underline-2"
+            rel="noreferrer"
           >
             Facebook
           </a>
@@ -60,6 +61,7 @@ const Contact = () => {
             href="https://www.instagram.com/"
             target="_blank"
             className="underline-3"
+            rel="noreferrer"
           >
             Instagram
           </a>
@@ -67,6 +69,7 @@ const Contact = () => {
             href="https://www.pinterest.com/"
             target="_blank"
             className="underline-5"
+            rel="noreferrer"
           >
             Pinterest
           </a>
@@ -74,6 +77,7 @@ const Contact = () => {
             href="https://www.linkedin.com/"
             target="_blank"
             className="underline-1"
+            rel="noreferrer"
           >
             Linkedin
           </a>

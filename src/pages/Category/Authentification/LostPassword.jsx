@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 
 const LostPassword = () => {
+  const [email, setEmail] = useState("");
+
   return (
     <main className="lost-password-page">
       <div className="lost-password-container-info">
@@ -11,15 +13,23 @@ const LostPassword = () => {
         </span>
       </div>
       <div className="lost-password-container-form">
-        <form>
+        <form onSubmit={""}>
           <div className="user-box">
-            <input type="email" id="email" name="" required={true} />
+            <input
+              type="email"
+              id="email"
+              name=""
+              required={true}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
             <label htmlFor="email">Email</label>
           </div>
           <div className="button-form">
-            <button>Obtenir</button>
+            <button type="submit">Obtenir</button>
           </div>
         </form>
+        {<div className="message">{""}</div>}
       </div>
     </main>
   );

@@ -8,7 +8,7 @@ import "./NavBar.scss";
 
 const SearchSection = () => {
   const dispatch = useDispatch();
-  const isInputVisible = useSelector((state) => state.search.isInputVisible);
+  const isInputVisible = useSelector((store) => store.searchState.isInputVisible);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchIconClicked, setSearchIconClicked] = useState(false);

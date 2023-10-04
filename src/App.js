@@ -24,6 +24,8 @@ import ScrollToTopButton from "./components/ScrollButton/ScrollToTopButton";
 import Footer from "./components/Footer/Footer";
 import PageNotFound from "./pages/NotFound/PageNotFound";
 import Main from "./components/Main/Main";
+import UserProfile from "./components/UserProfile/UserProfile";
+import LoadingWrapper from "./components/Loader/LoadingWrapper";
 
 const LinkToTop = () => {
   const { pathname } = useLocation();
@@ -45,6 +47,7 @@ const App = () => {
           <Route path="/devenir-membre" element={<RegisterPage />} />
           <Route path="/connexion" element={<LoginPage />} />
           <Route path="/mot-de-passe-oublie" element={<LostPassword />} />
+          <Route path="/mon-profil" element={<UserProfile />} />
           <Route path="/blog/art" element={<ArtPage />} />
           <Route path="/blog/photo" element={<PhotoPage />} />
           <Route path="/blog/mode" element={<ModePage />} />

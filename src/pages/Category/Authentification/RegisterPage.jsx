@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Navigate } from "react-router-dom";
 import "./Authentification.scss";
 
 const RegisterPage = () => {
@@ -7,14 +8,60 @@ const RegisterPage = () => {
   const [job, setJob] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [redirect, setRedirect] = useState(false);
+  const [isSuccessMessageVisible, setIsSuccessMessageVisible] = useState(false);
+  const [isFailedMessageVisible, setIsFailedMessageVisible] = useState(false);
+
+  useEffect(() => {
+    if (isSuccessMessageVisible) {
+      const modal = document.querySelector(".success-message");
+      modal.style.display = "block";
+      setTimeout(() => {
+        modal.style.display = "none";
+        setTimeout(() => {
+          setRedirect(true);
+        }, 1500);
+      }, 2500);
+    }
+  }, [isSuccessMessageVisible]);
+
+  useEffect(() => {
+    if (isFailedMessageVisible) {
+      const modal = document.querySelector(".failed-message");
+      modal.style.display = "block";
+      setTimeout(() => {
+        modal.style.display = "none";
+        setTimeout(() => {
+          setRedirect(true);
+        }, 1500);
+      }, 2500);
+    }
+  }, [isFailedMessageVisible]);
+
   const register = async (ev) => {
     ev.preventDefault();
-    await fetch("http://localhost:8000/register", {
+    const response = await fetch("http://localhost:8000/user/register", {
       method: "POST",
-      body: JSON.stringify({ name, lastname, job, email, password }),
+      body: JSON.stringify({
+        name: name,
+        lastname: lastname,
+        job: job,
+        email: email,
+        password: password,
+      }),
       headers: { "Content-Type": "application/json" },
     });
+    if (response.status === 201) {
+      setIsSuccessMessageVisible(true);
+    } else {
+      setIsFailedMessageVisible(true);
+    }
   };
+
+  if (redirect) {
+    return <Navigate to={"/connexion"} />;
+  }
+
   return (
     <main className="register-page">
       <div className="register-container-info">
@@ -79,10 +126,39 @@ const RegisterPage = () => {
             <label htmlFor="password">Mot de passe</label>
           </div>
           <div className="button-form">
-            <button>Devenir membre</button>
+            <button type="submit">Devenir membre</button>
           </div>
         </form>
       </div>
+      {isSuccessMessageVisible && (
+        <div
+          className={`success-message ${
+            isSuccessMessageVisible ? "fade-in" : "fade-out"
+          }`}
+        >
+          <div className="box-succes-message">
+            <p>
+              Votre compte a bien été créé, vous pouvez maintenant vous
+              connecter.
+            </p>
+            <img src="../../assets/img/icon/icon-validator.png" alt="" />
+          </div>
+        </div>
+      )}
+      {isFailedMessageVisible && (
+        <div
+          className={`failed-message ${
+            isFailedMessageVisible ? "fade-in" : "fade-out"
+          }`}
+        >
+          <div className="box-failed-message">
+            <p>
+              Erreur lors de la création de votre compte. Veuillez réessayer.
+            </p>
+            <img src="../../assets/img/icon/icon-unauthorized.png" alt="" />
+          </div>
+        </div>
+      )}
     </main>
   );
 };

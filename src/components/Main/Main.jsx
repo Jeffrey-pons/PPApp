@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import "./Main.scss";
 import MachineHallucinationVideo from "../VideoComponents/MachineHallucinationVideo";
+import { useDispatch } from "react-redux";
+import { setLogin } from "../../redux/reducers/login.reducer";
 
 const Main = () => {
   const [currentImage, setCurrentImage] = useState(
     "../../assets/img/artist-img/fabienne-verdier-expo.PNG"
   );
   const [activeTitleIndex, setActiveTitleIndex] = useState(0);
+
+  const dispatch = useDispatch();
 
   const handleTitleHover = (newImage, index) => {
     setCurrentImage(newImage);
@@ -22,6 +26,16 @@ const Main = () => {
       }
     });
   };
+
+  useEffect(() => {
+    // Vérifiez si l'utilisateur est connecté en fonction du jeton
+    const token = localStorage.getItem("token");
+    dispatch(
+      setLogin({
+        login: !!token,
+      })
+    );
+  }, [dispatch]);
 
   useEffect(() => {
     //observateur d'intersection
@@ -69,22 +83,7 @@ const Main = () => {
               Projection des films de Fabienne Verdier au Philharmonie de Paris
             </p>
           </div>
-          <div
-            className={`osiris-title ${activeTitleIndex === 1 ? "active" : ""}`}
-          >
-            <span>MODE</span>
-            <h2
-              onMouseEnter={() =>
-                handleTitleHover(
-                  "../../assets/img/artist-img/globe-osiris-mode.jpg",
-                  1
-                )
-              }
-            >
-              L'influence de Brian Reid sur Osiris
-            </h2>
-            <p>Brian Reid, designer d'Osiris shoes</p>
-          </div>
+
           <div
             className={`orgephill-title ${
               activeTitleIndex === 2 ? "active" : ""
@@ -138,6 +137,22 @@ const Main = () => {
               STATION TO STATION
             </h2>
             <p>David Platzker à propos de l'art d'Ed Ruscha</p>
+          </div>
+          <div
+            className={`osiris-title ${activeTitleIndex === 1 ? "active" : ""}`}
+          >
+            <span>MODE</span>
+            <h2
+              onMouseEnter={() =>
+                handleTitleHover(
+                  "../../assets/img/artist-img/globe-osiris-mode.jpg",
+                  1
+                )
+              }
+            >
+              L'influence de Brian Reid sur Osiris
+            </h2>
+            <p>Brian Reid, designer d'Osiris shoes</p>
           </div>
         </div>
       </div>

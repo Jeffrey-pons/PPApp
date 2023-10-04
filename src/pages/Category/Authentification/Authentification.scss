@@ -97,4 +97,52 @@
   .lost-password-page .lost-password-container-form form .user-box input {
     width: 280px; // auto //
   }
+  .success-message {
+    left: 30px;
+    right: 30px;
+  }
+}
+
+// Box inscription réussi :
+.success-message,
+.failed-message {
+  position: fixed;
+  bottom: 30px;
+  right: 20px;
+  background-color: #ffffff;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+  transition: transform 0.3s ease-in-out;
+  box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em,
+    rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
+  .box-succes-message,
+  .box-failed-message {
+    img {
+      max-width: 7%;
+      height: 36px;
+    }
+    display: flex;
+    align-items: center;
+
+    p {
+      padding: 10px;
+    }
+  }
+}
+/* Classe pour l'animation d'opacité d'apparition */
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+/* Animation d'opacité d'apparition */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

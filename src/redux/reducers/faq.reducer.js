@@ -48,7 +48,7 @@ const initialState = {
     {
       question: "Comment supprimer complétement mes données de votre site ?",
       answer:
-        "Pour supprimer complètement vos données de notre site, suivez ces étapes : connectez-vous à votre compte, accédez aux paramètres de votre compte, puis cherchez l'option de suppression de compte. Suivez les instructions pour confirmer votre demande, supprimez vos données personnelles si nécessaire, et n'hésitez pas à contacter notre équipe de support si vous avez des questions ou des difficultés",
+        "Pour supprimer complètement vos données de notre site, suivez ces étapes : connectez-vous à votre compte, accédez à votre profil, puis cherchez l'option de suppression de compte situé tout en bas de la page. Suivez les instructions pour confirmer votre demande, supprimez vos données personnelles si nécessaire, et n'hésitez pas à contacter notre équipe de support si vous avez des questions ou des difficultés",
       isOpen: false,
     },
   ],
