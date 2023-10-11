@@ -3,7 +3,7 @@ const initialState = {
     {
       question: "Qu'est ce que Pinceaux progressifs ?",
       answer:
-        "Pinceaux Progressifs est un blog dédié à l'art moderne, réalisé par Jeffrey Pons dans le cadre du bootcamp de Développeur Full Stack de la 3W Academy. Ce blog se concentre principalement sur l'art la musique, la photo, le design, la mode et les films au XX siècle. C'est un espace dédié aux amateurs d'art moderne, visant à fournir aux plus passionnées une plateforme riche en contenu et en interaction. ",
+        "Pinceaux Progressifs est un blog dédié à l'art moderne, réalisé par Jeffrey Pons dans le cadre du bootcamp de Développeur Full Stack de la 3W Academy. Ce blog se concentre principalement sur l'art la musique, la photo, le design, la mode et les films. C'est un espace dédié aux amateurs d'art moderne, visant à fournir aux plus passionnées une plateforme riche en contenu et en interaction. ",
       isOpen: false,
     },
     {
@@ -15,7 +15,7 @@ const initialState = {
     {
       question: " Comment puis-je rédiger un article sur le blog ?",
       answer:
-        "Pour écrire un article, connectez-vous à votre compte, puis cliquez sur le bouton 'Nouvel article' dans le menu de navigation. Vous pourrez ensuite rédiger votre article en utilisant notre éditeur de texte convivial.",
+        "Pour écrire un article, connectez-vous à votre compte, puis cliquez sur le bouton 'Ecrire un nouvel article' dans votre espace 'mon profil'. Vous pourrez ensuite rédiger votre article en utilisant notre éditeur de texte convivial.",
       isOpen: false,
     },
     {
@@ -39,16 +39,11 @@ const initialState = {
         "Oui, nous avons des directives spécifiques pour la rédaction des articles sur notre plateforme de blog dédiée à l'art contemporain. Ces directives ont été créées pour garantir la qualité et la cohérence du contenu artistique que nous présentons. Voici quelques points clés à prendre en compte lors de la rédaction de vos articles : Respect de la thématique : Assurez-vous que votre article est en lien avec l'art contemporain et qu'il correspond à la mission de notre plateforme. Contenu original : Nous encourageons la création de contenu original. Évitez de copier du contenu d'autres sources sans autorisation appropriée. Crédits et droits d'auteur : Si vous utilisez des images, des œuvres d'art ou d'autres éléments créatifs appartenant à d'autres artistes, assurez-vous d'obtenir les autorisations nécessaires et de donner crédit aux créateurs.",
       isOpen: false,
     },
-    {
-      question: "Puis-je partager mes articles sur les réseaux sociaux ?",
-      answer:
-        "Absolument ! Nous vous encourageons à partager vos articles sur les réseaux sociaux pour atteindre un public plus large. N'hésitez pas à nous mentionner par la même occassion ! ",
-      isOpen: false,
-    },
+
     {
       question: "Comment supprimer complétement mes données de votre site ?",
       answer:
-        "Pour supprimer complètement vos données de notre site, suivez ces étapes : connectez-vous à votre compte, accédez à votre profil, puis cherchez l'option de suppression de compte situé tout en bas de la page. Suivez les instructions pour confirmer votre demande, supprimez vos données personnelles si nécessaire, et n'hésitez pas à contacter notre équipe de support si vous avez des questions ou des difficultés",
+        "Pour supprimer complètement vos données de notre site, suivez ces étapes : connectez-vous à votre compte, accédez à votre profil, puis cherchez l'option de suppression de compte situé tout en bas de la page. Suivez les instructions pour confirmer votre demande",
       isOpen: false,
     },
   ],

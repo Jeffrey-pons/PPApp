@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "./Main.scss";
 import MachineHallucinationVideo from "../VideoComponents/MachineHallucinationVideo";
 import { useDispatch } from "react-redux";
@@ -269,7 +270,10 @@ const Main = () => {
               XIXe siècle, a dit que tout ce qui existe dans le monde existe
               pour finir dans un livre....
             </p>
-            <button className="animated-button"> Lire l'article</button>
+            <Link to="/Article">
+              {" "}
+              <button className="animated-button"> Lire l'article</button>
+            </Link>
           </div>
           <MachineHallucinationVideo />
         </div>

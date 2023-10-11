@@ -55,6 +55,7 @@ h3,
 p {
   margin: 0;
 }
+
 h2 {
   font-family: var(--font-title);
   font-size: 3.1em;
@@ -90,6 +91,13 @@ nav,
 main {
   max-width: 1150px;
   margin: auto;
+}
+.ql-snow .ql-editor {
+  h1 {
+    font-family: var(--font-title);
+    text-align: center;
+    text-transform: uppercase;
+  }
 }
 a {
   text-decoration: none;

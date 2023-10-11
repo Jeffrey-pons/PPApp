@@ -26,6 +26,7 @@ const AuthSection = () => {
     setIsSuccessMessageVisible(true);
     setTimeout(() => {
       localStorage.removeItem("token");
+      window.location.href = "/";
     }, 1000);
   };
 
@@ -38,9 +39,9 @@ const AuthSection = () => {
               <Link to="/mon-profil">Mon profil</Link>
             </li>
             <li>
-              <a href="/" onClick={handleLogout}>
+              <Link to="/" onClick={handleLogout}>
                 Se déconnecter
-              </a>
+              </Link>
             </li>
           </>
         ) : (

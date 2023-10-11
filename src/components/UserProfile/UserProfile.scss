@@ -1,11 +1,65 @@
+@import "../../styles/mixins";
+
 .userProfile-main {
+  display: grid;
+  gap: 60px;
+  .information-container {
+    @include box-info;
+    padding: 40px;
+  }
+
   .container-profil {
     display: flex;
-  }
-  .button-new-post {
-    text-align: center;
-    button {
-      width: 287px;
+
+    p {
+      padding: 30px;
     }
+  }
+}
+.button-new-post {
+  text-align: center;
+}
+button {
+  width: 287px;
+}
+.Created-Post {
+  h2 {
+    padding-bottom: 36px;
+  }
+
+  select {
+    font-size: 1.62em;
+    padding: 3px;
+    border-radius: 3px;
+    font-family: var(--font-author);
+  }
+  form {
+    display: grid;
+    gap: 22px;
+    padding-bottom: 72px;
+    .info-box-article {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+    .quill {
+      p {
+        max-width: 1111px;
+      }
+    }
+    input {
+      font-family: var(--font-author);
+      font-size: 1.62em;
+      padding: 5px;
+      border-radius: 3px;
+    }
+    label {
+      font-size: 16px;
+      font-family: var(--font-title);
+    }
+  }
+
+  .ql-editor p {
+    font-size: 18px;
   }
 }

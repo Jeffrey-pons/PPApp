@@ -4,10 +4,12 @@
 // Register SCSS
 .register-page,
 .login-page,
-.lost-password-page {
+.lost-password-page,
+.reset-password-page {
   .register-container-info,
   .login-container-info,
-  .lost-password-container-info {
+  .lost-password-container-info,
+  .reset-password-container-info {
     text-align: center;
     & h2 {
       padding-bottom: 36px;
@@ -19,7 +21,8 @@
   }
   .register-container-form,
   .login-container-form,
-  .lost-password-container-form {
+  .lost-password-container-form,
+  .reset-password-container-form {
     text-align: center;
     padding-top: 40px;
     form {
@@ -113,7 +116,7 @@
   padding: 10px;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  z-index: 999;
+  z-index: 9999999999999999;
   transition: transform 0.3s ease-in-out;
   box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em,
     rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
@@ -129,20 +132,5 @@
     p {
       padding: 10px;
     }
-  }
-}
-/* Classe pour l'animation d'opacité d'apparition */
-.fade-in {
-  opacity: 0;
-  animation: fadeIn 0.5s ease-in-out forwards;
-}
-
-/* Animation d'opacité d'apparition */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
   }
 }

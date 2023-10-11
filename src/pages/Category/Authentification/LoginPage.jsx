@@ -1,43 +1,28 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, Navigate } from "react-router-dom";
+import Loader from "../../../components/Loader/Loader";
+import "./Authentification.scss";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [redirect, setRedirect] = useState(false);
   const [isSuccessMessageVisible, setIsSuccessMessageVisible] = useState(false);
   const [isFailedMessageVisible, setIsFailedMessageVisible] = useState(false);
-
-  useEffect(() => {
-    if (isSuccessMessageVisible) {
-      const modal = document.querySelector(".success-message");
-      modal.style.display = "block";
-      setTimeout(() => {
-        modal.style.display = "none";
-        setTimeout(() => {
-          setRedirect(true);
-        }, 1500);
-      }, 2000);
-    }
-  }, [isSuccessMessageVisible]);
+  const [redirectToHome, setRedirectToHome] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (isFailedMessageVisible) {
-      const modal = document.querySelector(".failed-message");
-      modal.style.display = "block";
       setTimeout(() => {
-        modal.style.display = "none";
-        setTimeout(() => {
-          setRedirect(true);
-        }, 1500);
-      }, 2500);
+        setIsFailedMessageVisible(false);
+      }, 4000);
     }
   }, [isFailedMessageVisible]);
 
-  const userData = { email, password };
   const login = async (ev) => {
     ev.preventDefault();
     try {
+      const userData = { email, password };
       const response = await fetch("http://localhost:8000/user/login", {
         method: "POST",
         body: JSON.stringify(userData),
@@ -47,7 +32,13 @@ const LoginPage = () => {
       if (response.status === 201) {
         const data = await response.json();
         localStorage.setItem("token", data.token);
-        setIsSuccessMessageVisible(true);
+        setIsLoading(true);
+        showSuccessMessage();
+        setTimeout(() => {
+          setIsSuccessMessageVisible(false);
+          setRedirectToHome(true);
+          setIsLoading(false);
+        }, 3000);
       } else if (response.status === 401) {
         setIsFailedMessageVisible(true);
       } else {
@@ -58,12 +49,14 @@ const LoginPage = () => {
         "Une erreur s'est produite lors de la connexion : ",
         error.message
       );
+      setIsFailedMessageVisible(true);
     }
   };
 
-  if (redirect) {
-    return <Navigate to={"/"} />;
-  }
+  const showSuccessMessage = () => {
+    setIsSuccessMessageVisible(true);
+  };
+
   return (
     <main className="login-page">
       <div className="login-container-info">
@@ -107,12 +100,9 @@ const LoginPage = () => {
           </div>
         </form>
       </div>
+      {isLoading && <Loader />}
       {isSuccessMessageVisible && (
-        <div
-          className={`success-message ${
-            isSuccessMessageVisible ? "fade-in" : "fade-out"
-          }`}
-        >
+        <div className="success-message">
           <div className="box-succes-message">
             <p>Bienvenue, vous êtes maintenant connecté à votre compte !</p>
             <img src="../../assets/img/icon/icon-validator.png" alt="" />
@@ -120,19 +110,18 @@ const LoginPage = () => {
         </div>
       )}
       {isFailedMessageVisible && (
-        <div
-          className={`failed-message ${
-            isFailedMessageVisible ? "fade-in" : "fade-out"
-          }`}
-        >
+        <div className="failed-message">
           <div className="box-failed-message">
-            <p>Erreur lors de l'authentification. Veuillez réessayer.</p>
+            <p>Vos identifiants sont incorrects. Veuillez réessayer..</p>
             <img src="../../assets/img/icon/icon-unauthorized.png" alt="" />
           </div>
         </div>
       )}
+      {redirectToHome && <Navigate to="/" />}
     </main>
   );
 };
 
 export default LoginPage;
+
+// mdp utilisateur test : PONS33

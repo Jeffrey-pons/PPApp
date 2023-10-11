@@ -1,0 +1,4 @@
+@import "../../styles/mixins";
+.comments-section {
+  @include box-info;
+}

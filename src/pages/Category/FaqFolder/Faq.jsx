@@ -61,7 +61,7 @@ const FAQ = ({ faqItems, dispatch }) => {
 };
 
 const mapStateToProps = (state) => ({
-  faqItems: state.faq.faqItems,
+  faqItems: state.faqState.faqItems,
 });
 
 export default connect(mapStateToProps)(FAQ);
