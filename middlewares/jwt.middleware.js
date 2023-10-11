@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-export const secret = "NDUHZ387483FEJHEJHUE73";
+export const secret = process.env.JWT_SECRET || "MOTDEPASSEPARDEFAUT";
 
 const jwtOptions = {
   expiresIn: `28800000`, // 8h
@@ -11,7 +11,7 @@ const jwtVerifiy = (token) => {
     if (!secret) throw new Error("Secret must be defined !");
     const decoded = jwt.verify(token, secret);
     const userId = decoded.data;
-    return stringIsFilled(userId) ? userId : null;
+    return userId || null;
   } catch (err) {
     console.error("jwtVerify: error => ", err.message);
     return null;
@@ -27,4 +27,22 @@ export const jwtMiddleware = (req, res, next) => {
 
   req.body = { ...req.body, userId };
   next();
+};
+
+export const verifyToken = async (req, res, next) => {
+  try {
+    let token = req.header("Authorization");
+    if (!token) {
+      return res.status(403).send("Acess Denied");
+    }
+    if (token.startsWith("Bearer ")) {
+      token = token.slice(7, token.length).trimLeft();
+    }
+    console.log(token);
+    req.body.userId = jwtVerifiy(token);
+
+    next();
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
 };

@@ -6,6 +6,9 @@ const initUserRoutes = (app, sm, jwt) => {
   router.post("/register", sm, userController.register);
   router.post("/login", sm, userController.login);
   router.post("/lost-password", sm, userController.lostPassword);
+  router.post("/check-reset-password-token", sm, userController.getUserbyToken);
+  router.post("/save-new-password", sm, userController.saveNewPassword);
+  router.get("/profile", jwt, userController.getUserProfile);
   app.use("/user", router);
 };
 
