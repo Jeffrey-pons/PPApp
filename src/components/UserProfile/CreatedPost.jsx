@@ -1,15 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
 const CreatedPost = () => {
+  const navigate = useNavigate();
+  const { isLoggedIn } = useSelector((store) => store.loginState);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate("/");
+    }
+  }, [isLoggedIn, navigate]);
+
   const [articleData, setArticleData] = useState({
     category: "art",
     title: "",
     summary: "",
     content: "",
-    images: "",
-    videos: "",
+    articleImages: [],
+    thumbnail: "",
   });
 
   const handleInputChange = (e) => {
@@ -20,6 +31,27 @@ const CreatedPost = () => {
     });
   };
 
+  const handleThumbnailChange = (e) => {
+    const thumbnailFile = e.target.files[0];
+    setArticleData({
+      ...articleData,
+      thumbnail: thumbnailFile,
+    });
+  };
+  const handleArticleImagesChange = (e) => {
+    const selectedImages = e.target.files;
+    const imageUrls = [];
+
+    for (let i = 0; i < selectedImages.length; i++) {
+      const imageUrl = URL.createObjectURL(selectedImages[i]);
+      imageUrls.push(imageUrl);
+    }
+
+    setArticleData({
+      ...articleData,
+      articleImages: imageUrls,
+    });
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -86,7 +118,17 @@ const CreatedPost = () => {
           onChange={handleInputChange}
           required
         />
-        {/* Ajoutez d'autres champs ici */}
+
+        <label htmlFor="thumbnail">Image miniature de l'article :</label>
+        <input
+          type="file"
+          id="thumbnail"
+          name="thumbnail"
+          // value={articleData.thumbnail}
+          onChange={handleInputChange}
+          // required
+        />
+
         <label htmlFor="content">Contenu de l'article :</label>
         <ReactQuill
           value={articleData.content}
@@ -94,6 +136,18 @@ const CreatedPost = () => {
             setArticleData({ ...articleData, content: value })
           }
         />
+        <label id="articleImagesLabel" htmlFor="articleImages">
+          Images à ajouter dans l'article :
+        </label>
+        <input
+          type="file"
+          id="articleImages"
+          name="articleImages"
+          accept="image/*"
+          onChange={handleArticleImagesChange}
+          multiple
+        />
+
         <div className="button-new-post">
           <button type="submit">Créer un nouveau post</button>
         </div>

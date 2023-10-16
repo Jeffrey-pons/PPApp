@@ -18,7 +18,7 @@ const RegisterPage = () => {
     if (isFailedMessageVisible) {
       setTimeout(() => {
         setIsFailedMessageVisible(false);
-      }, 4000);
+      }, 3000);
     }
   }, [isFailedMessageVisible]);
 
@@ -44,7 +44,7 @@ const RegisterPage = () => {
           setIsSuccessMessageVisible(false);
           setRedirectToHome(true);
           setIsLoading(false);
-        }, 3000);
+        }, 2000);
       } else {
         setIsFailedMessageVisible(true);
       }

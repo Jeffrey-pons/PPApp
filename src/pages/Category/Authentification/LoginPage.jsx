@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Link, Navigate } from "react-router-dom";
 import Loader from "../../../components/Loader/Loader";
 import "./Authentification.scss";
-
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -38,7 +37,7 @@ const LoginPage = () => {
           setIsSuccessMessageVisible(false);
           setRedirectToHome(true);
           setIsLoading(false);
-        }, 3000);
+        }, 2000);
       } else if (response.status === 401) {
         setIsFailedMessageVisible(true);
       } else {
@@ -123,5 +122,3 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
-
-// mdp utilisateur test : PONS33

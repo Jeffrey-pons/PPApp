@@ -28,6 +28,7 @@ import CreatedPost from "./components/UserProfile/CreatedPost";
 import Faq from "./pages/Category/FaqFolder/Faq";
 import ArticleModel from "./components/ArticlePage/ArticleModel";
 import ResetPassword from "./pages/Category/Authentification/ResetPassword";
+import AuthLayout from "./pages/Category/Authentification/AuthVerification";
 
 const LinkToTop = () => {
   const { pathname } = useLocation();
@@ -44,6 +45,7 @@ const App = () => {
       <Router>
         <NavBar />
         <LinkToTop />
+        <AuthLayout />
         <Routes>
           <Route path="/devenir-membre" element={<RegisterPage />} />
           <Route path="/connexion" element={<LoginPage />} />
@@ -54,7 +56,7 @@ const App = () => {
           />
           <Route path="/mon-profil" element={<UserProfile />} />
           <Route path="/ecrire-un-nouvel-article" element={<CreatedPost />} />
-          <Route path="/Article" element={<ArticleModel />} />
+          <Route path="/Article/:articleId" element={<ArticleModel />} />
           <Route path="/blog/art" element={<ArtPage />} />
           <Route path="/blog/photo" element={<PhotoPage />} />
           <Route path="/blog/mode" element={<ModePage />} />

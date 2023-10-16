@@ -10,6 +10,7 @@ const Main = () => {
     "../../assets/img/artist-img/fabienne-verdier-expo.PNG"
   );
   const [activeTitleIndex, setActiveTitleIndex] = useState(0);
+  const [articles, setArticles] = useState([]);
 
   const dispatch = useDispatch();
 
@@ -39,7 +40,33 @@ const Main = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    //observateur d'intersection
+    const fetchArticles = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:8000/Article/getArticle",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+
+        if (response.status !== 200) {
+          throw new Error("Erreur lors de la récupération des articles");
+        }
+
+        const data = await response.json();
+        setArticles(data);
+      } catch (error) {
+        console.error("Erreur lors de la récupération des articles :", error);
+      }
+    };
+
+    fetchArticles();
+  }, []);
+
+  useEffect(() => {
     const options = {
       root: null,
       rootMargin: "0px",
@@ -157,100 +184,23 @@ const Main = () => {
           </div>
         </div>
       </div>
+
       <h2 className="h2-main">DERNIÈRES ACTUALITÉS</h2>
       <div className="article-main">
-        <div className="article-card">
-          <img src="../../assets/img/artist-img/georges braques.jpg" alt="" />
-          <div>
-            <span>ART</span>
-            <h5>L'Ordre des Oiseaux de Georges Braques</h5>
-            <span className="author">22.09.2023 - STAFF</span>
+        {articles.map((article, index) => (
+          <div className="article-card" key={index}>
+            <img src={article.images} alt="" />
+            <div>
+              <span>{article.category}</span>
+              <h5>{article.title}</h5>
+              <span className="author">
+                {article.createdAt} - {article.authorFirstName}{" "}
+                {article.authorLastName}
+              </span>
+              <Link to={`/article/${article.id}`}>Lire l'article</Link>
+            </div>
           </div>
-        </div>
-        <div className="article-card">
-          <video loop autoPlay muted>
-            <source
-              src="../../video/artist-video/Tim-Rodenbrooker-one.mp4"
-              type="video/mp4"
-            />
-          </video>
-          <div>
-            <span>DESIGN</span>
-            <h5> Un week-end à Barcelone avec Tim Rodenbröker</h5>
-            <span className="author">22.09.2023 - Julien Hancel</span>
-          </div>
-        </div>
-
-        <div className="article-card">
-          <img src="../../assets/img/artist-img/voyage-de-chihiro.jpg" alt="" />
-          <div>
-            <span>FILM</span>
-            <h5>Le voyage de Chihiro - un film poétique</h5>
-            <span className="author">22.09.2023 - Laura Adoue</span>
-          </div>
-        </div>
-      </div>
-      <div className="article-main">
-        <div className="article-card">
-          <img src="../../assets/img/artist-img/georges braques.jpg" alt="" />
-          <div>
-            <span>ART</span>
-            <h5>L'Ordre des Oiseaux de Georges Braques</h5>
-            <span className="author">22.09.2023 - STAFF</span>
-          </div>
-        </div>
-        <div className="article-card">
-          <video loop autoPlay muted>
-            <source
-              src="../../video/artist-video/Tim-Rodenbrooker-one.mp4"
-              type="video/mp4"
-            />
-          </video>
-          <div>
-            <span>DESIGN</span>
-            <h5> Un week-end à Barcelone avec Tim Rodenbröker</h5>
-            <span className="author">22.09.2023 - Julien Hancel</span>
-          </div>
-        </div>
-
-        <div className="article-card">
-          <img src="../../assets/img/artist-img/voyage-de-chihiro.jpg" alt="" />
-          <div>
-            <span>FILM</span>
-            <h5>Le voyage de Chihiro - un film poétique</h5>
-            <span className="author">22.09.2023 - Laura Adoue</span>
-          </div>
-        </div>
-      </div>
-      <div className="article-main">
-        <div className="article-card">
-          <img src="../../assets/img/artist-img/georges braques.jpg" alt="" />
-          <div>
-            <span>ART</span>
-            <h5>L'Ordre des Oiseaux de Georges Braques</h5>
-            <span className="author">22.09.2023 - STAFF</span>
-          </div>
-        </div>
-        <div className="article-card">
-          <img
-            src="../../assets/img/artist-img/typographic-dangeorgehill.PNG"
-            alt=""
-          />
-          <div>
-            <span>DESIGN</span>
-            <h5> Un week-end à Barcelone avec Tim Rodenbröker</h5>
-            <span className="author">22.09.2023 - Julien Hancel</span>
-          </div>
-        </div>
-
-        <div className="article-card">
-          <img src="../../assets/img/artist-img/voyage-de-chihiro.jpg" alt="" />
-          <div>
-            <span>FILM</span>
-            <h5>Le voyage de Chihiro - un film poétique</h5>
-            <span className="author">22.09.2023 - Laura Adoue</span>
-          </div>
-        </div>
+        ))}
       </div>
 
       <h2 className="h2-main">MACHINE HALLUCINATION - Refik Anadol Studio</h2>
@@ -270,77 +220,10 @@ const Main = () => {
               XIXe siècle, a dit que tout ce qui existe dans le monde existe
               pour finir dans un livre....
             </p>
-            <Link to="/Article">
-              {" "}
-              <button className="animated-button"> Lire l'article</button>
-            </Link>
+
+            <button className="animated-button"> Lire l'article</button>
           </div>
           <MachineHallucinationVideo />
-        </div>
-      </div>
-      <h2 className="h2-main">LES ARTICLES POPULAIRES</h2>
-      <div className="article-main">
-        <div className="article-card">
-          <img src="../../assets/img/artist-img/georges braques.jpg" alt="" />
-          <div>
-            <span>ART</span>
-            <h5>L'Ordre des Oiseaux de Georges Braques</h5>
-            <span className="author">22.09.2023 - STAFF</span>
-          </div>
-        </div>
-        <div className="article-card">
-          <video loop autoPlay muted>
-            <source
-              src="../../video/artist-video/Tim-Rodenbrooker-one.mp4"
-              type="video/mp4"
-            />
-          </video>
-          <div>
-            <span>DESIGN</span>
-            <h5> Un week-end à Barcelone avec Tim Rodenbröker</h5>
-            <span className="author">22.09.2023 - Julien Hancel</span>
-          </div>
-        </div>
-
-        <div className="article-card">
-          <img src="../../assets/img/artist-img/voyage-de-chihiro.jpg" alt="" />
-          <div>
-            <span>FILM</span>
-            <h5>Le voyage de Chihiro - un film poétique</h5>
-            <span className="author">22.09.2023 - Laura Adoue</span>
-          </div>
-        </div>
-      </div>
-      <div className="article-main">
-        <div className="article-card">
-          <img src="../../assets/img/artist-img/georges braques.jpg" alt="" />
-          <div>
-            <span>ART</span>
-            <h5>L'Ordre des Oiseaux de Georges Braques</h5>
-            <span className="author">22.09.2023 - STAFF</span>
-          </div>
-        </div>
-        <div className="article-card">
-          <video loop autoPlay muted>
-            <source
-              src="../../video/artist-video/Tim-Rodenbrooker-one.mp4"
-              type="video/mp4"
-            />
-          </video>
-          <div>
-            <span>DESIGN</span>
-            <h5> Un week-end à Barcelone avec Tim Rodenbröker</h5>
-            <span className="author">22.09.2023 - Julien Hancel</span>
-          </div>
-        </div>
-
-        <div className="article-card">
-          <img src="../../assets/img/artist-img/voyage-de-chihiro.jpg" alt="" />
-          <div>
-            <span>FILM</span>
-            <h5>Le voyage de Chihiro - un film poétique</h5>
-            <span className="author">22.09.2023 - Laura Adoue</span>
-          </div>
         </div>
       </div>
       <div className="article-main">
@@ -378,6 +261,7 @@ const Main = () => {
       <h2 className="h2-main">
         Comment faire de l'art avec du noir - Pierre Soulages
       </h2>
+
       <div className="article-main-youtube">
         <div className="article-card-secondary">
           <img
@@ -401,70 +285,6 @@ const Main = () => {
               de tableaux souvent imposants.
             </p>
             <button>Lire l'article</button>
-          </div>
-        </div>
-      </div>
-      <div className="article-main">
-        <div className="article-card">
-          <img src="../../assets/img/artist-img/georges braques.jpg" alt="" />
-          <div>
-            <span>ART</span>
-            <h5>L'Ordre des Oiseaux de Georges Braques</h5>
-            <span className="author">22.09.2023 - STAFF</span>
-          </div>
-        </div>
-        <div className="article-card">
-          <video loop autoPlay muted>
-            <source
-              src="../../video/artist-video/Tim-Rodenbrooker-one.mp4"
-              type="video/mp4"
-            />
-          </video>
-          <div>
-            <span>DESIGN</span>
-            <h5> Un week-end à Barcelone avec Tim Rodenbröker</h5>
-            <span className="author">22.09.2023 - Julien Hancel</span>
-          </div>
-        </div>
-
-        <div className="article-card">
-          <img src="../../assets/img/artist-img/voyage-de-chihiro.jpg" alt="" />
-          <div>
-            <span>FILM</span>
-            <h5>Le voyage de Chihiro - un film poétique</h5>
-            <span className="author">22.09.2023 - Laura Adoue</span>
-          </div>
-        </div>
-      </div>
-      <div className="article-main">
-        <div className="article-card">
-          <img src="../../assets/img/artist-img/georges braques.jpg" alt="" />
-          <div>
-            <span>ART</span>
-            <h5>L'Ordre des Oiseaux de Georges Braques</h5>
-            <span className="author">22.09.2023 - STAFF</span>
-          </div>
-        </div>
-        <div className="article-card">
-          <video loop autoPlay muted>
-            <source
-              src="../../video/artist-video/Tim-Rodenbrooker-one.mp4"
-              type="video/mp4"
-            />
-          </video>
-          <div>
-            <span>DESIGN</span>
-            <h5> Un week-end à Barcelone avec Tim Rodenbröker</h5>
-            <span className="author">22.09.2023 - Julien Hancel</span>
-          </div>
-        </div>
-
-        <div className="article-card">
-          <img src="../../assets/img/artist-img/voyage-de-chihiro.jpg" alt="" />
-          <div>
-            <span>FILM</span>
-            <h5>Le voyage de Chihiro - un film poétique</h5>
-            <span className="author">22.09.2023 - Laura Adoue</span>
           </div>
         </div>
       </div>

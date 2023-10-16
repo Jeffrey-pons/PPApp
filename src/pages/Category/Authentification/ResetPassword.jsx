@@ -1,61 +1,54 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Navigate, useNavigate } from "react-router-dom";
+import { useParams, Navigate } from "react-router-dom";
 import "./Authentification.scss";
+import Loader from "../../../components/Loader/Loader";
 
 const ResetPassword = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [redirect, setRedirect] = useState(false);
+
   const [isSuccessMessageVisible, setIsSuccessMessageVisible] = useState(false);
   const [isFailedMessageVisible, setIsFailedMessageVisible] = useState(false);
+  const [redirectToConnexion, setRedirectToConnexion] = useState(false);
+  const [redirectToHome, setRedirectToHome] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { token } = useParams();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (isSuccessMessageVisible) {
-      const modal = document.querySelector(".success-message");
-      modal.style.display = "block";
-      setTimeout(() => {
-        modal.style.display = "none";
-        setTimeout(() => {
-          setRedirect(true);
-        }, 1500);
-      }, 2500);
-    }
-  }, [isSuccessMessageVisible]);
 
   useEffect(() => {
     if (isFailedMessageVisible) {
-      const modal = document.querySelector(".failed-message");
-      modal.style.display = "block";
       setTimeout(() => {
-        modal.style.display = "none";
-        setTimeout(() => {
-          setRedirect(false);
-        }, 1500);
-      }, 2500);
+        setIsFailedMessageVisible(false);
+      }, 4000);
     }
   }, [isFailedMessageVisible]);
-
-  const checkToken = async () => {
-    const response = await fetch(
-      "http://localhost:8000/user/check-reset-password-token",
-      {
-        method: "POST",
-        body: JSON.stringify({ token }),
-        headers: { "Content-Type": "application/json" },
-      }
-    );
-    if (response.status !== 202) {
-      alert("Cet utilisateur n'existe pas");
-      navigate("/");
-    }
-  };
 
   useEffect(() => {
     checkToken();
     return () => {};
   }, []);
+
+  const checkToken = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:8000/user/check-reset-password-token",
+        {
+          method: "POST",
+          body: JSON.stringify({ token }),
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      if (response.status !== 202) {
+        alert("Cet utilisateur n'existe pas");
+        setRedirectToHome(true);
+      }
+    } catch (error) {
+      console.error(
+        "Une erreur s'est produite lors de la réinitialisation du mot de passe: ",
+        error.message
+      );
+    }
+  };
 
   const handleSubmit = async (ev) => {
     ev.preventDefault();
@@ -63,24 +56,39 @@ const ResetPassword = () => {
       setIsFailedMessageVisible(true);
       return;
     }
-    const response = await fetch(
-      "http://localhost:8000/user/save-new-password",
-      {
-        method: "POST",
-        body: JSON.stringify({ token, password }),
-        headers: { "Content-Type": "application/json" },
+    try {
+      const response = await fetch(
+        "http://localhost:8000/user/save-new-password",
+        {
+          method: "POST",
+          body: JSON.stringify({ token, password }),
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      if (response.status === 201) {
+        setIsLoading(true);
+        showSuccessMessage();
+        setTimeout(() => {
+          setIsSuccessMessageVisible(false);
+          setRedirectToConnexion(true);
+          setIsLoading(false);
+        }, 3000);
+      } else {
+        setIsFailedMessageVisible(true);
       }
-    );
-    if (response.status === 201) {
-      setIsSuccessMessageVisible(true);
-    } else {
+    } catch (error) {
+      console.error(
+        "Une erreur s'est produite lors de la réinitialisation du mot de passe: ",
+        error.message
+      );
       setIsFailedMessageVisible(true);
     }
   };
 
-  if (redirect) {
-    return <Navigate to={"/connexion"} />;
-  }
+  const showSuccessMessage = () => {
+    setIsSuccessMessageVisible(true);
+  };
+
   return (
     <main className="reset-password-page">
       <div className="reset-password-container-info">
@@ -112,39 +120,35 @@ const ResetPassword = () => {
             <label htmlFor="email">Nouveau mot de passe</label>
           </div>
           <div className="button-form">
-            <button type="submit">Réinitialisater</button>
+            <button type="submit">Réinitialiser</button>
           </div>
         </form>
-        {<div className="message">{""}</div>}
       </div>
+      {isLoading && <Loader />}
       {isSuccessMessageVisible && (
-        <div
-          className={`success-message ${
-            isSuccessMessageVisible ? "fade-in" : "fade-out"
-          }`}
-        >
+        <div className="success-message">
           <div className="box-succes-message">
             <p>
-              Votre mot de passe a bien été modifié. Vous pouvez maintenant vous
-              connecter !
+              Votre mot de passe a bien été réinitialiser, vous pouvez désormais
+              vous connecter !
             </p>
             <img src="../../assets/img/icon/icon-validator.png" alt="" />
           </div>
         </div>
       )}
-
       {isFailedMessageVisible && (
-        <div
-          className={`failed-message ${
-            isFailedMessageVisible ? "fade-in" : "fade-out"
-          }`}
-        >
+        <div className="failed-message">
           <div className="box-failed-message">
-            <p>Erreur lors de la modification de votre mot de passe</p>
+            <p>
+              Une erreur s'est produite lors de la réinitialisation de votre mot
+              de passe. Veuillez ressayer !
+            </p>
             <img src="../../assets/img/icon/icon-unauthorized.png" alt="" />
           </div>
         </div>
       )}
+      {redirectToConnexion && <Navigate to="/connexion" />}
+      {redirectToHome && <Navigate to="/" />}
     </main>
   );
 };

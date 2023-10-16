@@ -1,22 +1,11 @@
-import React, { useState, useEffect } from "react";
-
+import React, { useState } from "react";
+import Loader from "../../../components/Loader/Loader";
 import "./Authentification.scss";
 
 const LostPassword = () => {
   const [email, setEmail] = useState("");
-
   const [isSuccessMessageVisible, setIsSuccessMessageVisible] = useState(false);
-
-  useEffect(() => {
-    if (isSuccessMessageVisible) {
-      const modal = document.querySelector(".success-message");
-      modal.style.display = "block";
-      setTimeout(() => {
-        modal.style.display = "none";
-        setTimeout(() => {}, 1500);
-      }, 2500);
-    }
-  }, [isSuccessMessageVisible]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (ev) => {
     ev.preventDefault();
@@ -27,11 +16,20 @@ const LostPassword = () => {
         headers: { "Content-Type": "application/json" },
       });
       if (response) {
-        setIsSuccessMessageVisible(true);
+        setIsLoading(true);
+        showSuccessMessage();
+        setTimeout(() => {
+          setIsSuccessMessageVisible(false);
+          setIsLoading(false);
+        }, 3000);
       }
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const showSuccessMessage = () => {
+    setIsSuccessMessageVisible(true);
   };
 
   return (
@@ -62,16 +60,13 @@ const LostPassword = () => {
         </form>
         {<div className="message">{""}</div>}
       </div>
+      {isLoading && <Loader />}
       {isSuccessMessageVisible && (
-        <div
-          className={`success-message ${
-            isSuccessMessageVisible ? "fade-in" : "fade-out"
-          }`}
-        >
+        <div className="success-message">
           <div className="box-succes-message">
             <p>
               Un lien pour créer un nouveau mot de passe vous a été envoyé sur
-              votre adresse mail
+              votre adresse mail.
             </p>
             <img src="../../assets/img/icon/icon-validator.png" alt="" />
           </div>
