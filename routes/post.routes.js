@@ -1,6 +1,6 @@
 import { Router } from "express";
 import {
-  getPost,
+  getPostMiniature,
   setPost,
   editPost,
   deletePost,
@@ -10,7 +10,8 @@ import {
 
 const initPostRoutes = (app, sm, jwt) => {
   const router = Router();
-  router.get("/setArticle", sm, jwt, getPost);
+  router.get("/getArticle", sm, jwt, getPostMiniature);
+  router.get("/:article", sm, jwt);
   router.post("/createdArticle", sm, jwt, setPost);
   router.put("/setArticle/:id", editPost);
   router.delete("/setArticle/:id", deletePost);

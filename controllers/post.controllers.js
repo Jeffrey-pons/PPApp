@@ -1,29 +1,34 @@
 import Post from "../models/post.model.js";
 import User from "../models/user.model.js";
 
-export const getPost = async (req, res) => {
+export const getPostMiniature = async (req, res) => {
+  const postId = req.body.postId;
   try {
-    const posts = await Post.find();
-    res.status(200).json(posts);
+    const articles = await Post.find(postId);
+    return res.status(200).json(articles);
   } catch (error) {
-    console.error("Erreur lors de la récupération des posts :", error);
-    res.status(500).json({ error: "Erreur lors de la récupération des posts" });
+    console.error("Erreur lors de la récupération des articles :", error);
+    res
+      .status(500)
+      .json({ error: "Erreur lors de la récupération des articles" });
   }
 };
 
 export const setPost = async (req, res) => {
   try {
-    const { title, content, category, images, videos, userId } = req.body;
+    const { title, content, category, articleImages, thumbnail, userId } =
+      req.body;
     const user = await User.findById(userId);
     //post daos
     const newPost = new Post({
       title,
       content,
       category,
-      images,
-      videos,
+      articleImages: [],
+      thumbnail: null,
       authorFirstName: user.name,
       authorLastName: user.lastname,
+      createdAt,
     });
 
     const savedPost = await newPost.save();
@@ -36,7 +41,10 @@ export const setPost = async (req, res) => {
       .json({ message: "Erreur lors de la création de l'article" });
   }
 };
-
+//
+///////
+//////////
+///////////////////// TEST =>
 export const editPost = async (req, res) => {
   try {
     const postId = req.params.id;
@@ -54,7 +62,6 @@ export const editPost = async (req, res) => {
     res.status(500).json({ error: "Erreur lors de la modification du post" });
   }
 };
-
 export const deletePost = async (req, res) => {
   try {
     const postId = req.params.id;
@@ -72,7 +79,6 @@ export const deletePost = async (req, res) => {
     res.status(500).json({ error: "Erreur lors de la suppression du post" });
   }
 };
-
 export const likePost = async (req, res) => {
   try {
     await Post.findByIdAndUpdate(
@@ -84,7 +90,6 @@ export const likePost = async (req, res) => {
     res.status(400).json(error);
   }
 };
-
 export const dislikePost = async (req, res) => {
   try {
     await Post.findByIdAndUpdate(

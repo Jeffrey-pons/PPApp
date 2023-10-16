@@ -9,6 +9,7 @@ const initUserRoutes = (app, sm, jwt) => {
   router.post("/check-reset-password-token", sm, userController.getUserbyToken);
   router.post("/save-new-password", sm, userController.saveNewPassword);
   router.get("/profile", jwt, userController.getUserProfile);
+  router.delete("/delete", jwt, userController.deleteUser);
   app.use("/user", router);
 };
 

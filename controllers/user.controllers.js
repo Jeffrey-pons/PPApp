@@ -108,6 +108,25 @@ const getUserProfile = async (req, res) => {
     return res.status(500).json({ message: "Erreur serveur" });
   }
 };
+
+export const deleteUser = async (req, res) => {
+  try {
+    const userId = req.body.userId;
+    await User.findByIdAndRemove(userId);
+    res.clearCookie("token");
+    res
+      .status(200)
+      .json({ message: "Compte utilisateur supprimé avec succès" });
+  } catch (error) {
+    console.error(
+      "Erreur lors de la suppression du compte utilisateur :",
+      error
+    );
+    res
+      .status(500)
+      .json({ error: "Erreur lors de la suppression du compte utilisateur" });
+  }
+};
 export const userController = {
   register,
   login,
@@ -115,4 +134,5 @@ export const userController = {
   getUserProfile,
   getUserbyToken,
   saveNewPassword,
+  deleteUser,
 };

@@ -10,7 +10,7 @@ const PostSchema = new Schema({
     type: String,
     required: true,
   },
-  images: [
+  articleImages: [
     {
       // url: String,
       // caption: String,
@@ -68,6 +68,10 @@ const PostSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now,
+  },
+  thumbnail: {
+    type: String,
+    // required: true, // Vous pouvez ajuster cela selon vos besoins
   },
 });
 
