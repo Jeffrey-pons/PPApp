@@ -55,8 +55,12 @@ const Main = () => {
         if (response.status !== 200) {
           throw new Error("Erreur lors de la récupération des articles");
         }
-
         const data = await response.json();
+        data.sort((a, b) => {
+          const dateA = new Date(a.createdAt);
+          const dateB = new Date(b.createdAt);
+          return dateB - dateA;
+        });
         setArticles(data);
       } catch (error) {
         console.error("Erreur lors de la récupération des articles :", error);
@@ -186,20 +190,22 @@ const Main = () => {
       </div>
 
       <h2 className="h2-main">DERNIÈRES ACTUALITÉS</h2>
-      <div className="article-main">
+
+      <div className="article-main column-layout">
         {articles.map((article, index) => (
-          <div className="article-card" key={index}>
-            <img src={article.images} alt="" />
-            <div>
-              <span>{article.category}</span>
-              <h5>{article.title}</h5>
-              <span className="author">
-                {article.createdAt} - {article.authorFirstName}{" "}
-                {article.authorLastName}
-              </span>
-              <Link to={`/article/${article.id}`}>Lire l'article</Link>
+          <Link to={`/article/${article.id}`}>
+            <div className="article-card" key={index}>
+              <img src={article.images} alt="" />
+              <div>
+                <span id="article-category">{article.category}</span>
+                <h5>{article.title}</h5>
+                <span className="author">
+                  {article.createdAt} - {article.authorFirstName}{" "}
+                  {article.authorLastName}
+                </span>
+              </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
 

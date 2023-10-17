@@ -11,6 +11,7 @@ const UserProfile = () => {
   const [isAccountDeleted, setAccountDeleted] = useState(false);
   const [isSuccessMessageVisible, setIsSuccessMessageVisible] = useState(false);
   const [isLoading, setLoading] = useState(false);
+  const [userArticles, setUserArticles] = useState([]);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -41,8 +42,39 @@ const UserProfile = () => {
         );
       }
     };
-
+    const userArticles = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:8000/Article/getArticle",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        if (response.status === 200) {
+          const articlesData = await response.json();
+          articlesData.sort((a, b) => {
+            const dateA = new Date(a.createdAt);
+            const dateB = new Date(b.createdAt);
+            return dateB - dateA;
+          });
+          setUserArticles(articlesData);
+        } else {
+          console.error(
+            "Échec de la récupération des articles de l'utilisateur"
+          );
+        }
+      } catch (error) {
+        console.error(
+          "Erreur lors de la récupération des articles de l'utilisateur :",
+          error.message
+        );
+      }
+    };
     userInfo();
+    userArticles();
   }, [isLoggedIn, navigate]);
 
   const handleDeleteAccount = async (e) => {
@@ -78,7 +110,7 @@ const UserProfile = () => {
   const showSuccessMessage = () => {
     setIsSuccessMessageVisible(true);
   };
-  
+
   return (
     <main className="userProfile-main">
       {isLoading && <Loader />}
@@ -102,6 +134,23 @@ const UserProfile = () => {
         <div className="title-info-icon">
           <h2>Mes articles</h2>
           <img src="../../assets/img/icon-user/article-icon.png" alt="" />
+        </div>
+        <div className="article-main column-layout">
+          {userArticles.map((article, index) => (
+            <Link to={`/article/${article.id}`}>
+              <div className="article-card" key={index}>
+                <img src={article.images} alt="" />
+                <div>
+                  <span id="article-category">{article.category}</span>
+                  <h5>{article.title}</h5>
+                  <span className="author">
+                    {article.createdAt} - {article.authorFirstName}{" "}
+                    {article.authorLastName}
+                  </span>
+                </div>
+              </div>
+            </Link>
+          ))}
         </div>
         <div className="button-new-post">
           <Link to="/ecrire-un-nouvel-article">

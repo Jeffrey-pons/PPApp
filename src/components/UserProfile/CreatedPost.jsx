@@ -4,9 +4,12 @@ import { useSelector } from "react-redux";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
+
 const CreatedPost = () => {
   const navigate = useNavigate();
   const { isLoggedIn } = useSelector((store) => store.loginState);
+  const [imageFiles, setImageFiles] = useState([]);
+  const [thumbnailFile, setThumbnailFile] = useState(null);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -32,24 +35,24 @@ const CreatedPost = () => {
   };
 
   const handleThumbnailChange = (e) => {
-    const thumbnailFile = e.target.files[0];
-    setArticleData({
-      ...articleData,
-      thumbnail: thumbnailFile,
-    });
+    setThumbnailFile(e.target.files[0]);
   };
-  const handleArticleImagesChange = (e) => {
-    const selectedImages = e.target.files;
-    const imageUrls = [];
 
-    for (let i = 0; i < selectedImages.length; i++) {
-      const imageUrl = URL.createObjectURL(selectedImages[i]);
-      imageUrls.push(imageUrl);
+  const handleArticleImagesChange = (e) => {
+    const files = e.target.files;
+    const imageBase64Array = [];
+
+    for (let i = 0; i < files.length; i++) {
+      const fileReader = new FileReader();
+      fileReader.onload = (e) => {
+        imageBase64Array.push(e.target.result);
+      };
+      fileReader.readAsDataURL(files[i]);
     }
 
     setArticleData({
       ...articleData,
-      articleImages: imageUrls,
+      articleImages: imageBase64Array,
     });
   };
   const handleSubmit = async (e) => {
@@ -124,11 +127,10 @@ const CreatedPost = () => {
           type="file"
           id="thumbnail"
           name="thumbnail"
-          // value={articleData.thumbnail}
-          onChange={handleInputChange}
-          // required
+          accept="image/*"
+          onChange={handleThumbnailChange}
+          required
         />
-
         <label htmlFor="content">Contenu de l'article :</label>
         <ReactQuill
           value={articleData.content}

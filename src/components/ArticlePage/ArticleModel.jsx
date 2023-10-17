@@ -8,7 +8,6 @@ const ArticleModel = () => {
   const [loaderRatio, setLoaderRatio] = useState(0);
 
   useEffect(() => {
-    // Faites une requête pour récupérer les données de l'article à partir de votre backend en utilisant l'ID
     const fetchArticleData = async () => {
       try {
         const response = await fetch(
