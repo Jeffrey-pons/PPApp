@@ -24,12 +24,11 @@ export const setPost = async (req, res) => {
       title,
       content,
       category,
-      articleImages: [],
-      thumbnail: null,
       authorFirstName: user.name,
       authorLastName: user.lastname,
-      createdAt,
     });
+    newPost.articleImages = articleImages; // Assurez-vous que articleImages est un tableau de chemins d'accès
+    newPost.thumbnail = thumbnail;
 
     const savedPost = await newPost.save();
 
