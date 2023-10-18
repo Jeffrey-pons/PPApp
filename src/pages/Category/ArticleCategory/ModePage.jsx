@@ -46,9 +46,9 @@ const ModePage = () => {
         participation est la bienvenue !
       </p>
       <div className="article-main column-layout">
-        {modeArticles.map((article, index) => (
-          <Link to={`/article/${article.id}`}>
-            <div className="article-card" key={index}>
+        {modeArticles.map((article) => (
+          <Link to={`/article/${article.id}`} key={article._id}>
+            <div className="article-card">
               <img src={article.images} alt="" />
               <div>
                 <span id="article-category">{article.category}</span>

@@ -45,7 +45,7 @@ const UserProfile = () => {
     const userArticles = async () => {
       try {
         const response = await fetch(
-          "http://localhost:8000/Article/getArticle",
+          "http://localhost:8000/Article/getArticleProfile",
           {
             method: "GET",
             headers: {
@@ -137,7 +137,7 @@ const UserProfile = () => {
         </div>
         <div className="article-main column-layout">
           {userArticles.map((article, index) => (
-            <Link to={`/article/${article.id}`}>
+            <Link to={`/article/${article.id}`} key={article._id}>
               <div className="article-card" key={index}>
                 <img src={article.images} alt="" />
                 <div>

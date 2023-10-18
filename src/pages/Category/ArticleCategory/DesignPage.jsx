@@ -46,9 +46,9 @@ const DesignPage = () => {
         <span className="underline-5"> typographie</span>.
       </p>
       <div className="article-main column-layout">
-        {designArticles.map((article, index) => (
-          <Link to={`/article/${article.id}`}>
-            <div className="article-card" key={index}>
+        {designArticles.map((article) => (
+          <Link to={`/article/${article.id}`} key={article._id}>
+            <div className="article-card">
               <img src={article.images} alt="" />
               <div>
                 <span id="article-category">{article.category}</span>

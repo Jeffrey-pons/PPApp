@@ -192,9 +192,9 @@ const Main = () => {
       <h2 className="h2-main">DERNIÈRES ACTUALITÉS</h2>
 
       <div className="article-main column-layout">
-        {articles.map((article, index) => (
-          <Link to={`/article/${article.id}`}>
-            <div className="article-card" key={index}>
+        {articles.map((article) => (
+          <Link to={`/Article/${article._id}`} key={article._id}>
+            <div className="article-card">
               <img src={article.images} alt="" />
               <div>
                 <span id="article-category">{article.category}</span>

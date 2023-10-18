@@ -50,9 +50,9 @@ const ArtPage = () => {
         <span className="underline-4">vos propres articles</span> sur l'art !
       </p>
       <div className="article-main column-layout">
-        {artArticles.map((article, index) => (
-          <Link to={`/article/${article.id}`}>
-            <div className="article-card" key={index}>
+        {artArticles.map((article) => (
+          <Link to={`/article/${article.id}`} key={article._id}>
+            <div className="article-card">
               <img src={article.images} alt="" />
               <div>
                 <span id="article-category">{article.category}</span>

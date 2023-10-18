@@ -4,11 +4,10 @@ import { useSelector } from "react-redux";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
-
 const CreatedPost = () => {
   const navigate = useNavigate();
   const { isLoggedIn } = useSelector((store) => store.loginState);
-  const [imageFiles, setImageFiles] = useState([]);
+
   const [thumbnailFile, setThumbnailFile] = useState(null);
 
   useEffect(() => {
@@ -35,7 +34,8 @@ const CreatedPost = () => {
   };
 
   const handleThumbnailChange = (e) => {
-    setThumbnailFile(e.target.files[0]);
+    const file = e.target.files[0];
+    setThumbnailFile(file);
   };
 
   const handleArticleImagesChange = (e) => {
