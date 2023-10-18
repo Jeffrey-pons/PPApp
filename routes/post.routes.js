@@ -6,13 +6,15 @@ import {
   deletePost,
   likePost,
   dislikePost,
+  getPostProfile,
 } from "../controllers/post.controllers.js";
 import upload from "../config/multer.config.js";
 
 const initPostRoutes = (app, sm, jwt) => {
   const router = Router();
   router.get("/getArticle", sm, jwt, getPostMiniature);
-  router.get("/:article", sm, jwt);
+  router.get("/getArticleProfile", sm, jwt, getPostProfile);
+
   router.post(
     "/createdArticle",
     upload.array("articleImages", 10),

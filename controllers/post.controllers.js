@@ -24,8 +24,10 @@ export const setPost = async (req, res) => {
       title,
       content,
       category,
+      articleImages,
       authorFirstName: user.name,
       authorLastName: user.lastname,
+      userId: userId,
     });
     newPost.articleImages = articleImages; // Assurez-vous que articleImages est un tableau de chemins d'accès
     newPost.thumbnail = thumbnail;
@@ -41,6 +43,23 @@ export const setPost = async (req, res) => {
   }
 };
 //
+
+export const getPostProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id); // Récupérez l'utilisateur connecté
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Récupérez les articles de l'utilisateur connecté
+    const userArticles = await Post.find({ userId: user._id });
+
+    res.status(200).json({ user, userArticles });
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    res.status(500).json({ error: "Error fetching user profile" });
+  }
+};
 ///////
 //////////
 ///////////////////// TEST =>
