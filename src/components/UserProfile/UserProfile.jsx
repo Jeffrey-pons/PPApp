@@ -137,7 +137,7 @@ const UserProfile = () => {
         </div>
         <div className="article-main column-layout">
           {userArticles.map((article, index) => (
-            <Link to={`/article/${article.id}`} key={article._id}>
+            <Link to={`/article/${article._id}`} key={article._id}>
               <div className="article-card" key={index}>
                 <img src={article.images} alt="" />
                 <div>

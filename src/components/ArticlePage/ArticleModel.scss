@@ -13,3 +13,21 @@
   transition: width 0.3s ease;
   z-index: 999;
 }
+
+.article-main-container {
+  text-align: center;
+  .article-content {
+    word-wrap: break-word;
+  }
+  .info-user-article {
+    display: flex;
+    padding-bottom: 50px;
+  }
+  span {
+    font-family: var(--font-author);
+    font-size: 13px;
+    text-decoration: underline;
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+}

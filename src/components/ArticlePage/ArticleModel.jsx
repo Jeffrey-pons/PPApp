@@ -46,20 +46,26 @@ const ArticleModel = () => {
   }, []);
 
   return (
-    <main className="article-main">
+    <main className="article-main-container">
       <h2>{articleData.title}</h2>
+      <span>{articleData.category}</span>
       <img src={articleData.thumbnail} alt="Miniature de l'article" />
-      <p>{articleData.content}</p>
+      <div className="article-content">
+        <p>{articleData.content}</p>
+      </div>
+
       {articleData.images &&
         articleData.images.map((image, index) => (
           <img key={index} src={image} alt={`Image ${index}`} />
         ))}
-      <p>
-        Auteur : {articleData.authorFirstName} {articleData.authorLastName}
-      </p>
-      <p>
-        Date de création : {new Date(articleData.createdAt).toLocaleString()}
-      </p>
+      <div className="info-user-article">
+        <p>
+          Auteur : {articleData.authorFirstName} {articleData.authorLastName}
+        </p>
+        <p>
+          Date de création : {new Date(articleData.createdAt).toLocaleString()}
+        </p>
+      </div>
       <div className="comments-section">
         <p>lol</p>
       </div>

@@ -8,14 +8,28 @@ import "./NavBar.scss";
 
 const SearchSection = () => {
   const dispatch = useDispatch();
-  const isInputVisible = useSelector((store) => store.searchState.isInputVisible);
+  const isInputVisible = useSelector(
+    (store) => store.searchState.isInputVisible
+  );
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchIconClicked, setSearchIconClicked] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
     console.log("isMenuOpen:", isMenuOpen);
+  };
+
+  useEffect(() => {
+    if (searchText) {
+      dispatch(performSearch(searchText));
+    }
+  }, [searchText, dispatch]);
+
+  const handleSearchInputChange = (e) => {
+    setSearchText(e.target.value);
   };
 
   const handleSearchIconClick = () => {
@@ -32,6 +46,21 @@ const SearchSection = () => {
     }
     setSearchIconClicked(true);
   };
+
+  useEffect(() => {
+    if (searchText) {
+      fetch(
+        `http://localhost:8000/Article/searchArticles?searchText=${searchText}`
+      )
+        .then((response) => response.json())
+        .then((data) => setSearchResults(data))
+        .catch((error) => {
+          console.error("Erreur lors de la recherche d'articles :", error);
+        });
+    } else {
+      setSearchResults([]); // Réinitialise les résultats si la recherche est vide
+    }
+  }, [searchText]);
 
   useEffect(() => {
     const handleWindowResize = () => {
@@ -66,7 +95,7 @@ const SearchSection = () => {
             id="search"
             autoComplete="off"
             placeholder=""
-            onChange={(e) => {}}
+            onChange={(e) => setSearchText(e.target.value)}
             onBlur={() => {
               if (windowWidth <= 650 && !searchIconClicked) {
                 dispatch(toggleInputVisibility());
@@ -77,6 +106,14 @@ const SearchSection = () => {
         )}
       </form>
       <Hamburger isOpen={isMenuOpen} onClick={toggleMenu} />
+      <div className="search-results">
+        {searchText &&
+          searchResults.map((article) => (
+            <Link key={article._id} to={`/article/${article._id}`}>
+              {article.title}
+            </Link>
+          ))}
+      </div>
     </nav>
   );
 };

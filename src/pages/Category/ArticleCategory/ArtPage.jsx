@@ -51,7 +51,7 @@ const ArtPage = () => {
       </p>
       <div className="article-main column-layout">
         {artArticles.map((article) => (
-          <Link to={`/article/${article.id}`} key={article._id}>
+          <Link to={`/article/${article._id}`} key={article._id}>
             <div className="article-card">
               <img src={article.images} alt="" />
               <div>
