@@ -46,12 +46,11 @@ export const setPost = async (req, res) => {
 
 export const getPostProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id); // Récupérez l'utilisateur connecté
+    const user = await User.findById(req.user.id);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Récupérez les articles de l'utilisateur connecté
     const userArticles = await Post.find({ userId: user._id });
 
     res.status(200).json({ user, userArticles });
@@ -61,7 +60,43 @@ export const getPostProfile = async (req, res) => {
   }
 };
 ///////
+
+export const getArticleDetails = async (req, res) => {
+  const articleId = req.params.articleId;
+
+  try {
+    // Recherchez l'article par son ID dans la base de données
+    const article = await Post.findById(articleId);
+
+    if (!article) {
+      // Si l'article n'est pas trouvé, renvoyez une réponse d'erreur
+      return res.status(404).json({ message: "Article not found" });
+    }
+
+    // Si l'article est trouvé, renvoyez les détails de l'article
+    res.status(200).json(article);
+  } catch (error) {
+    console.error("Error while fetching article details:", error);
+    res.status(500).json({ error: "Error while fetching article details" });
+  }
+};
+
 //////////
+
+export const searchArticle = async (req, res) => {
+  const { searchText } = req.query;
+
+  try {
+    const articles = await Post.find({
+      title: { $regex: searchText, $options: "i" }, // Effectue une recherche insensible à la casse
+    });
+    res.status(200).json(articles);
+  } catch (error) {
+    console.error("Erreur lors de la recherche d'articles :", error);
+    res.status(500).json({ error: "Erreur lors de la recherche d'articles" });
+  }
+};
+
 ///////////////////// TEST =>
 export const editPost = async (req, res) => {
   try {
