@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+
 import ReactQuill from "react-quill";
+import Loader from "../Loader/Loader";
 import "react-quill/dist/quill.snow.css";
 
 const CreatedPost = () => {
   const navigate = useNavigate();
   const { isLoggedIn } = useSelector((store) => store.loginState);
-
+  const [isSuccessMessageVisible, setIsSuccessMessageVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [thumbnailFile, setThumbnailFile] = useState(null);
 
   useEffect(() => {
@@ -72,7 +75,16 @@ const CreatedPost = () => {
       );
 
       if (response.status === 201) {
-        alert("Article crée avec succès");
+        const responseData = await response.json();
+        setIsLoading(true);
+        showSuccessMessage();
+        setTimeout(() => {
+          setIsSuccessMessageVisible(false);
+
+          setIsLoading(false);
+          window.location.href = `/Article/${responseData._id}`;
+        }, 2500);
+
         console.log("Article créé avec succès !");
       } else {
         console.error("Erreur lors de la création de l'article");
@@ -80,6 +92,10 @@ const CreatedPost = () => {
     } catch (error) {
       console.error("Une erreur s'est produite :", error.message);
     }
+  };
+
+  const showSuccessMessage = () => {
+    setIsSuccessMessageVisible(true);
   };
 
   return (
@@ -154,6 +170,15 @@ const CreatedPost = () => {
           <button type="submit">Créer un nouveau post</button>
         </div>
       </form>
+      {isLoading && <Loader />}
+      {isSuccessMessageVisible && (
+        <div className="success-message">
+          <div className="box-succes-message">
+            <p>Votre article a bien été créer. Vous pouvez le consulter</p>
+            <img src="../../assets/img/icon/icon-validator.png" alt="" />
+          </div>
+        </div>
+      )}
     </main>
   );
 };

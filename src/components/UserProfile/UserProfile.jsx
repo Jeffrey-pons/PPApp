@@ -42,7 +42,7 @@ const UserProfile = () => {
         );
       }
     };
-    const userArticles = async () => {
+    const fetchUserArticles = async () => {
       try {
         const response = await fetch(
           "http://localhost:8000/Article/getArticleProfile",
@@ -74,7 +74,7 @@ const UserProfile = () => {
       }
     };
     userInfo();
-    userArticles();
+    fetchUserArticles();
   }, [isLoggedIn, navigate]);
 
   const handleDeleteAccount = async (e) => {
@@ -137,7 +137,7 @@ const UserProfile = () => {
         </div>
         <div className="article-main column-layout">
           {userArticles.map((article, index) => (
-            <Link to={`/article/${article._id}`} key={article._id}>
+            <Link to={`/Article/${article._id}`} key={article._id}>
               <div className="article-card" key={index}>
                 <img src={article.images} alt="" />
                 <div>

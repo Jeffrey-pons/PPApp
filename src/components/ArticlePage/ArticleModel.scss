@@ -15,19 +15,61 @@
 }
 
 .article-main-container {
+  h2 {
+    padding: 38px 0px;
+  }
+  max-width: 988px;
+  margin: auto;
+  text-align: center;
+  img {
+    max-width: 25px;
+    height: 26px;
+  }
   text-align: center;
   .article-content {
     word-wrap: break-word;
+    border-bottom: 1px solid #d5d5d5;
+    padding: 50px;
   }
   .info-user-article {
-    display: flex;
-    padding-bottom: 50px;
+    display: grid;
+    justify-content: flex-start;
+    text-align: left;
+    gap: 17px;
+    .user-article,
+    .date-article {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
   }
-  span {
+  .category-style {
     font-family: var(--font-author);
     font-size: 13px;
     text-decoration: underline;
     cursor: pointer;
     text-transform: uppercase;
+  }
+  span {
+    font-size: 14.5px;
+    color: black;
+    font-family: var(--font-title);
+  }
+}
+
+//like-comment Section
+.icon-like-comment-section {
+  display: flex;
+  align-items: center;
+  padding: 20px 10px;
+  gap: 37px;
+  .Like-icon-container,
+  .Comment-icon-container {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+  img {
+    max-width: 25px;
   }
 }
