@@ -29,7 +29,7 @@ export const setPost = async (req, res) => {
       authorLastName: user.lastname,
       userId: userId,
     });
-    newPost.articleImages = articleImages; // Assurez-vous que articleImages est un tableau de chemins d'accès
+    newPost.articleImages = articleImages;
     newPost.thumbnail = thumbnail;
 
     const savedPost = await newPost.save();
@@ -45,18 +45,21 @@ export const setPost = async (req, res) => {
 //
 
 export const getPostProfile = async (req, res) => {
+  const userId = req.body.userId;
   try {
-    const user = await User.findById(req.user.id);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
+    const user = await User.findById(userId);
+    if (user) {
+      const userArticles = await Post.find({ userId: userId });
+
+      return res.status(200).json(userArticles);
+    } else {
+      return res.status(404).json({ message: "Utilisateur non trouvé" });
     }
-
-    const userArticles = await Post.find({ userId: user._id });
-
-    res.status(200).json({ user, userArticles });
   } catch (error) {
-    console.error("Error fetching user profile:", error);
-    res.status(500).json({ error: "Error fetching user profile" });
+    console.error("Erreur lors de la récupération de l'article", error);
+    res
+      .status(500)
+      .json({ error: "Erreur lors de la récupération de l'article" });
   }
 };
 ///////
@@ -65,7 +68,6 @@ export const getArticleDetails = async (req, res) => {
   const articleId = req.params.articleId;
 
   try {
-    // Recherchez l'article par son ID dans la base de données
     const article = await Post.findById(articleId);
 
     if (!article) {
